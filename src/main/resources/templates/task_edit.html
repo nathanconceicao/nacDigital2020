@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="_template :: head"></head>
+
+<body>
+
+<div class="content">
+
+		<h1 th:text="#{form.title.edittask}"></h1>
+
+	<form action="/task/update" method="POST" th:object="${task}">
+	<input type="hidden" th:field="*{id}">
+		
+		<input type="text" th:field="*{title}" th:placeholder="#{form.label.title}"	th:classappend="${#fields.hasErrors('title')} ? invalid"/>
+		<span th:errors="*{title}"></span>
+		
+		<input type="text" th:field="*{description}" th:placeholder="#{form.label.description}"	th:classappend="${#fields.hasErrors('description')} ? invalid"/>
+		<span th:errors="*{description}"></span>
+
+		<label th:text="#{form.label.point}"></label>
+		<input type="number" min="1" max="100" id="point" th:field="*{point}" th:classappend="${#fields.hasErrors('point')} ? invalid" />
+		<input type="range" min="1" max="100" id="range-point" th:field="*{point}"/> 
+		
+		<label th:text="#{form.label.status}"></label>
+		<input type="number" min="0" max="100" id="status" th:field="*{status}" th:classappend="${#fields.hasErrors('status')} ? invalid" />
+		<input type="range" min="0" max="100" id="range-status" th:field="*{status}"/> 
+
+		<div class="actions">
+			<a class="btn" href="/task" th:text="#{form.button.cancel}"></a>
+			<a class="btn red" th:href="${'delete/' + id }" th:text="#{form.button.delete}"></a>
+			<button class="btn blue" th:text="#{form.button.save}"></button>
+		</div>
+		
+	</form>
+	
+	</div>
+
+<script>
+
+	document.querySelector("#range-point").addEventListener("input", 
+			(e) => document.querySelector("#point").value= (e.target.value) 
+	)
+	document.querySelector("#point").addEventListener("change", 
+			(e) => document.querySelector("#range-point").value= (e.target.value) 
+	)
+	
+	document.querySelector("#range-status").addEventListener("input", 
+			(e) => document.querySelector("#status").value= (e.target.value) 
+	)
+	document.querySelector("#status").addEventListener("change", 
+			(e) => document.querySelector("#range-status").value= (e.target.value) 
+	)
+</script>
+
+
+</body>
+</html>
